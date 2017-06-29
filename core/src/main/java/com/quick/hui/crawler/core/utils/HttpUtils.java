@@ -25,16 +25,16 @@ public class HttpUtils {
     public static HttpResponse request(CrawlMeta crawlMeta, CrawlHttpConf httpConf) throws Exception {
         switch (httpConf.getMethod()) {
             case GET:
-                return doGet(crawlMeta, httpConf);
+                return doGet(crawlMeta.getUrl(), httpConf);
             case POST:
-                return doPost(crawlMeta, httpConf);
+                return doPost(crawlMeta.getUrl(), httpConf);
             default:
                 return null;
         }
     }
 
 
-    private static HttpResponse doGet(CrawlMeta crawlMeta, CrawlHttpConf httpConf) throws Exception {
+    private static HttpResponse doGet(String url, CrawlHttpConf httpConf) throws Exception {
 //        HttpClient httpClient = HttpClients.createDefault();
         SSLContextBuilder builder = new SSLContextBuilder();
 //         全部信任 不做身份鉴定
@@ -42,7 +42,7 @@ public class HttpUtils {
         HttpClient httpClient = HttpClientBuilder.create().setSslcontext(builder.build()).build();
 
         // 设置请求参数
-        StringBuilder param = new StringBuilder(crawlMeta.getUrl()).append("?");
+        StringBuilder param = new StringBuilder(url).append("?");
         for (Map.Entry<String, Object> entry : httpConf.getRequestParams().entrySet()) {
             param.append(entry.getKey())
                     .append("=")
@@ -63,14 +63,14 @@ public class HttpUtils {
     }
 
 
-    private static HttpResponse doPost(CrawlMeta crawlMeta, CrawlHttpConf httpConf) throws Exception {
+    private static HttpResponse doPost(String url, CrawlHttpConf httpConf) throws Exception {
 //        HttpClient httpClient = HttpClients.createDefault();
         SSLContextBuilder builder = new SSLContextBuilder();
 //         全部信任 不做身份鉴定
         builder.loadTrustMaterial(null, (x509Certificates, s) -> true);
         HttpClient httpClient = HttpClientBuilder.create().setSslcontext(builder.build()).build();
 
-        HttpPost httpPost = new HttpPost(crawlMeta.getUrl());
+        HttpPost httpPost = new HttpPost(url);
 
 
         // 建立一个NameValuePair数组，用于存储欲传送的参数

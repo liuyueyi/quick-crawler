@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@ToString(callSuper = true)
+@ToString
 public class CrawlResult {
 
 

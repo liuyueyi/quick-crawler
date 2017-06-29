@@ -1,21 +1,12 @@
 package com.quick.hui.crawler.core.job;
 
-import com.quick.hui.crawler.core.entity.CrawlHttpConf;
-import com.quick.hui.crawler.core.entity.CrawlMeta;
 import com.quick.hui.crawler.core.entity.CrawlResult;
-import com.quick.hui.crawler.core.utils.HttpUtils;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 最简单的一个爬虫任务
@@ -24,61 +15,38 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class SimpleCrawlJob extends AbstractJob {
-
-    /**
-     * 配置项信息
-     */
-    private CrawlMeta crawlMeta;
-
-
-    /**
-     * http配置信息
-     */
-    private CrawlHttpConf httpConf = new CrawlHttpConf();
-
+@NoArgsConstructor
+public class SimpleCrawlJob extends DefaultAbstractCrawlJob {
 
     /**
      * 存储爬取的结果
      */
-    private CrawlResult crawlResult = new CrawlResult();
+    private CrawlResult crawlResult;
 
 
     /**
-     * 执行抓取网页
+     * 批量查询的结果
      */
-    public void doFetchPage() throws Exception {
-        HttpResponse response = HttpUtils.request(crawlMeta, httpConf);
-        String res = EntityUtils.toString(response.getEntity());
-        if (response.getStatusLine().getStatusCode() == 200) { // 请求成功
-            doParse(res);
-        } else {
-            this.crawlResult = new CrawlResult();
-            this.crawlResult.setStatus(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
-            this.crawlResult.setUrl(crawlMeta.getUrl());
-        }
+    private List<CrawlResult> crawlResults = new ArrayList<>();
+
+
+
+    public SimpleCrawlJob(int depth) {
+        super(depth);
     }
 
 
+    @Override
+    protected void visit(CrawlResult crawlResult) {
+        crawlResults.add(crawlResult);
+    }
 
-    private void doParse(String html) {
-        Document doc = Jsoup.parse(html);
 
-        Map<String, List<String>> map = new HashMap<>(crawlMeta.getSelectorRules().size());
-        for (String rule: crawlMeta.getSelectorRules()) {
-            List<String> list = new ArrayList<>();
-            for (Element element: doc.select(rule)) {
-                list.add(element.text());
-            }
-
-            map.put(rule, list);
+    public CrawlResult getCrawlResult() {
+        if(crawlResults.size() == 0) {
+            return null;
         }
 
-
-        this.crawlResult = new CrawlResult();
-        this.crawlResult.setHtmlDoc(doc);
-        this.crawlResult.setUrl(crawlMeta.getUrl());
-        this.crawlResult.setResult(map);
-        this.crawlResult.setStatus(CrawlResult.SUCCESS);
+        return crawlResults.get(0);
     }
 }

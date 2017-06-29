@@ -1,5 +1,7 @@
 package com.quick.hui.crawler.core.job;
 
+import com.quick.hui.crawler.core.entity.CrawlResult;
+
 /**
  * Created by yihui on 2017/6/27.
  */
@@ -10,6 +12,14 @@ public abstract class AbstractJob implements IJob {
 
     public void afterRun() {
     }
+
+
+    /**
+     * 解析完网页后的回调方法
+     *
+     * @param crawlResult
+     */
+    protected abstract void visit(CrawlResult crawlResult);
 
 
     @Override
