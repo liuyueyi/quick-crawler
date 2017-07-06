@@ -14,6 +14,12 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrawlMeta {
+    /**
+     * 当前爬取的深度
+     */
+    @Getter
+    @Setter
+    private int currentDepth = 0;
 
     /**
      * 待爬去的网址
@@ -45,7 +51,6 @@ public class CrawlMeta {
     @Setter
     @Getter
     private Set<Pattern> negativeRegex = new HashSet<>();
-
 
 
     public Set<String> addSelectorRule(String rule) {

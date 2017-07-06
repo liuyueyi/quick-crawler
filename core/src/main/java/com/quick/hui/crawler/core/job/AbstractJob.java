@@ -43,5 +43,5 @@ public abstract class AbstractJob implements IJob {
      *
      * @throws Exception
      */
-    public abstract void doFetchPage() throws Exception;
+    abstract void doFetchPage() throws Exception;
 }

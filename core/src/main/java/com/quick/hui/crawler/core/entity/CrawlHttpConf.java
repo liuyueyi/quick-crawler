@@ -56,6 +56,14 @@ public class CrawlHttpConf {
     private Map<String, Object> requestParams;
 
 
+    /**
+     * 返回的编码格式
+     */
+    @Getter
+    @Setter
+    private String code = "UTF-8";
+
+
     public Map<String, String> getRequestHeaders() {
         return requestHeaders == null ? DEFAULT_HEADERS : requestHeaders;
     }
