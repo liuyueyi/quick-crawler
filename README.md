@@ -26,7 +26,7 @@
 - 提供爬取完成后的回调方法，用于结果处理
 
 
-### 4. [v/0.004](https://github.com/liuyueyi/quick-crawler/releases/tag/v0.004)
+### 4. [v0.004](https://github.com/liuyueyi/quick-crawler/releases/tag/v0.004)
 
 > 实现爬取队列
 

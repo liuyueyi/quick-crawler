@@ -4,6 +4,7 @@ import com.quick.hui.crawler.core.entity.CrawlMeta;
 import com.quick.hui.crawler.core.entity.CrawlResult;
 import com.quick.hui.crawler.core.fetcher.Fetcher;
 import com.quick.hui.crawler.core.job.DefaultAbstractCrawlJob;
+import org.junit.Test;
 
 /**
  * 将待爬去任务放在队列中进行一次爬取
@@ -26,7 +27,8 @@ public class QueueCrawlerTest {
     }
 
 
-    public static void main(String[] rags) throws Exception {
+    @Test
+    public void testCrawel() throws Exception {
         Fetcher fetcher = new Fetcher(1);
 
         String url = "http://chengyu.t086.com/gushi/1.htm";
