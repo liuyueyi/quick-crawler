@@ -1,6 +1,7 @@
 package com.quick.hui.crawler.core.entity;
 
 
+import com.quick.hui.crawler.core.fetcher.JobCount;
 import lombok.*;
 
 import java.util.HashSet;
@@ -11,9 +12,25 @@ import java.util.regex.Pattern;
  * Created by yihui on 2017/6/27.
  */
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class CrawlMeta {
+
+    /**
+     * 当前任务对应的 {@link JobCount#id }
+     */
+    @Getter
+    @Setter
+    private int jobId;
+
+
+    /**
+     * 当前任务对应的 {@link JobCount#parentId }
+     */
+    @Getter
+    @Setter
+    private int parentJobId;
+
+
     /**
      * 当前爬取的深度
      */
@@ -68,5 +85,10 @@ public class CrawlMeta {
     public Set<Pattern> addNegativeRegex(String regex) {
         this.negativeRegex.add(Pattern.compile(regex));
         return this.negativeRegex;
+    }
+
+
+    public CrawlMeta() {
+        this.jobId = JobCount.genId();
     }
 }

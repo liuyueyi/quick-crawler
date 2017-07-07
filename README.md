@@ -32,3 +32,18 @@
 
 - 每个Job只执行当前网页的抓取，将网页中满足深度抓取的链接塞入队列
 - 新增Fetcher类，用于控制抓去任务
+
+
+### 5. [v0.005](https://github.com/liuyueyi/quick-crawler/releases/tag/v0.005)
+
+> 实现Job任务中爬取 + 结果解析的分离； 完成任务结束的标识设定
+
+- 新增 ResultFilter 实现爬取网页的分析， 并将满足条件的链接塞入爬取队列
+- 新增 JobCount 来记录任务的爬取完成数， 以此完成整个任务的结束标识设定
+
+
+## 相关博文
+
+- [Java 动手写爬虫: 一、实现一个最简单爬虫](http://zbang.online:8080/articles/2017/07/05/1499239054423.html)
+- [Java 动手写爬虫: 二、 深度爬取](http://zbang.online:8080/articles/2017/07/05/1499239349163.html)
+- [Java 动手写爬虫: 三、爬取队列](http://zbang.online:8080/articles/2017/07/07/1499401540323.html)

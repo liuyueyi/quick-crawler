@@ -22,19 +22,19 @@ public class QueueCrawlerTest {
 
         @Override
         protected void visit(CrawlResult crawlResult) {
-            System.out.println(Thread.currentThread().getName() + " ___ " + crawlResult.getUrl());
+            System.out.println(Thread.currentThread().getName() + "___" + crawlMeta.getCurrentDepth() + "___" + crawlResult.getUrl());
         }
     }
 
 
     @Test
     public void testCrawel() throws Exception {
-        Fetcher fetcher = new Fetcher(1);
+        Fetcher fetcher = new Fetcher(2);
 
         String url = "http://chengyu.t086.com/gushi/1.htm";
         CrawlMeta crawlMeta = new CrawlMeta();
         crawlMeta.setUrl(url);
-        crawlMeta.addPositiveRegex("http://chengyu.t086.com/gushi/[0-9]+\\.htm$");
+        crawlMeta.addPositiveRegex("http://chengyu.t086.com/gushi/[0-9]+\\.html$");
 
         fetcher.addFeed(crawlMeta);
 

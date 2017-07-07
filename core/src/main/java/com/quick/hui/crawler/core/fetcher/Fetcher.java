@@ -57,22 +57,16 @@ public class Fetcher {
     }
 
 
-
     public <T extends DefaultAbstractCrawlJob> void start(Class<T> clz) throws Exception {
         CrawlMeta crawlMeta;
-        int i = 0;
-        while (true) {
+
+        while (!fetchQueue.isOver) {
             crawlMeta = fetchQueue.pollSeed();
             if (crawlMeta == null) {
                 Thread.sleep(200);
-                if (++i > 300) { // 连续一分钟内没有数据时，退出
-                    break;
-                }
-
                 continue;
             }
 
-            i = 0;
 
             DefaultAbstractCrawlJob job = clz.newInstance();
             job.setDepth(this.maxDepth);
@@ -82,7 +76,6 @@ public class Fetcher {
             executor.execute(job);
         }
     }
-
 
 
     private static class CustomThreadFactory implements ThreadFactory {
@@ -100,7 +93,6 @@ public class Fetcher {
             return new Thread(r, name + "-" + count.addAndGet(1));
         }
     }
-
 
 
     @Getter
