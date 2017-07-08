@@ -3,6 +3,7 @@ package com.quick.hui.crawler.core.fetcher;
 import com.quick.hui.crawler.core.entity.CrawlMeta;
 import com.quick.hui.crawler.core.job.DefaultAbstractCrawlJob;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by yihui on 2017/6/27.
  */
+@Slf4j
 public class Fetcher {
 
     private int maxDepth;
@@ -58,7 +60,16 @@ public class Fetcher {
 
 
     public <T extends DefaultAbstractCrawlJob> void start(Class<T> clz) throws Exception {
+        long start = System.currentTimeMillis();
         CrawlMeta crawlMeta;
+
+        if (fetchQueue.size() == 0) {
+            throw new IllegalArgumentException("please choose one seed to start crawling!");
+        }
+
+
+        log.info(">>>>>>>>>>>> start  crawl <<<<<<<<<<<<");
+
 
         while (!fetchQueue.isOver) {
             crawlMeta = fetchQueue.pollSeed();
@@ -75,6 +86,10 @@ public class Fetcher {
 
             executor.execute(job);
         }
+
+
+        long end = System.currentTimeMillis();
+        log.info(">>>>>>>>>>>> crawl over! total url num: {}, cost: {}ms <<<<<<<<<<<<", fetchQueue.urls.size(), end - start);
     }
 
 

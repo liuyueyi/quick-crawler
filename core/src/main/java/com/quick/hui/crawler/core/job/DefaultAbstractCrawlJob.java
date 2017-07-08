@@ -9,6 +9,7 @@ import com.quick.hui.crawler.core.utils.HttpUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.util.EntityUtils;
@@ -24,6 +25,7 @@ import java.util.Map;
 /**
  * Created by yihui on 2017/6/29.
  */
+@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
@@ -67,8 +69,23 @@ public abstract class DefaultAbstractCrawlJob extends AbstractJob {
      * 执行抓取网页
      */
     void doFetchPage() throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("start crawl url: {}", crawlMeta.getUrl());
+        }
+
+
+        long start = System.currentTimeMillis();
         HttpResponse response = HttpUtils.request(this.crawlMeta, httpConf);
         String res = EntityUtils.toString(response.getEntity(), httpConf.getCode());
+        long end = System.currentTimeMillis();
+        if (log.isDebugEnabled()) {
+            log.debug("crawl url:{} response code: {} cost time: {} ms\n",
+                    this.crawlMeta.getUrl(),
+                    response.getStatusLine().getStatusCode(),
+                    end - start );
+        }
+
+
         if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) { // 请求成功
             this.crawlResult = new CrawlResult();
             this.crawlResult.setStatus(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());

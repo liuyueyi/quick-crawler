@@ -22,7 +22,7 @@ public class QueueCrawlerTest {
 
         @Override
         protected void visit(CrawlResult crawlResult) {
-            System.out.println(Thread.currentThread().getName() + "___" + crawlMeta.getCurrentDepth() + "___" + crawlResult.getUrl());
+//            System.out.println(Thread.currentThread().getName() + "___" + crawlMeta.getCurrentDepth() + "___" + crawlResult.getUrl());
         }
     }
 

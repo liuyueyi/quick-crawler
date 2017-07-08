@@ -1,6 +1,7 @@
 package com.quick.hui.crawler.core.fetcher;
 
 import com.quick.hui.crawler.core.entity.CrawlMeta;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.Queue;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * Created by yihui on 2017/7/6.
  */
+@Slf4j
 public class FetchQueue {
 
     public static FetchQueue DEFAULT_INSTANCE = newInstance("default");
@@ -44,7 +46,7 @@ public class FetchQueue {
     /**
      * 所有爬取过的url集合， 用于去重
      */
-    private Set<String> urls = ConcurrentHashMap.newKeySet();
+    public Set<String> urls = ConcurrentHashMap.newKeySet();
 
 
     private FetchQueue(String tag) {
@@ -54,6 +56,11 @@ public class FetchQueue {
 
     public static FetchQueue newInstance(String tag) {
         return new FetchQueue(tag);
+    }
+
+
+    public int size() {
+        return toFetchQueue.size();
     }
 
 
@@ -89,7 +96,6 @@ public class FetchQueue {
     public void finishJob(CrawlMeta crawlMeta, int count, int maxDepth) {
         if (finishOneJob(crawlMeta, count, maxDepth)) {
             isOver = true;
-            System.out.println("============ finish crawl! ======");
         }
     }
 
