@@ -1,5 +1,6 @@
 package com.quick.hui.crawler.core.fetcher;
 
+import com.quick.hui.crawler.core.conf.ConfigWrapper;
 import com.quick.hui.crawler.core.entity.CrawlMeta;
 import com.quick.hui.crawler.core.job.DefaultAbstractCrawlJob;
 import lombok.*;
@@ -74,8 +75,20 @@ public class Fetcher {
         while (!fetchQueue.isOver) {
             crawlMeta = fetchQueue.pollSeed();
             if (crawlMeta == null) {
-                Thread.sleep(200);
+                Thread.sleep(ConfigWrapper.getInstance().getConfig().getEmptyQueueWaitTime());
                 continue;
+            }
+
+
+            try {
+                long sleep = ConfigWrapper.getInstance().getConfig().getSleep();
+                Thread.sleep(sleep);
+
+                if (log.isDebugEnabled()) {
+                    log.debug("Sleep {} ms", sleep);
+                }
+            } catch (Exception e) {
+                log.error("fetcher sleep exception! e:{} ", e);
             }
 
 
