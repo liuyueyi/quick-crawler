@@ -24,4 +24,22 @@ public class NumUtils {
         }
     }
 
+
+
+    public static int str2int(String str, int defaultValue) {
+        if (str == null) {
+            return defaultValue;
+        }
+
+
+        try {
+            return Integer.parseInt(str.trim());
+        } catch (Exception e) {
+            if (log.isDebugEnabled()) {
+                log.debug("parse str{} to int error! return defaultValue: {}", str, defaultValue);
+            }
+            return defaultValue;
+        }
+    }
+
 }

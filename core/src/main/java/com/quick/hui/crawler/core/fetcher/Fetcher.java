@@ -3,7 +3,12 @@ package com.quick.hui.crawler.core.fetcher;
 import com.quick.hui.crawler.core.conf.ConfigWrapper;
 import com.quick.hui.crawler.core.entity.CrawlMeta;
 import com.quick.hui.crawler.core.job.DefaultAbstractCrawlJob;
-import lombok.*;
+import com.quick.hui.crawler.core.pool.ObjectFactory;
+import com.quick.hui.crawler.core.pool.SimplePool;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
@@ -33,16 +38,30 @@ public class Fetcher {
     }
 
 
-    public Fetcher() {
-        this(0);
+    public <T extends DefaultAbstractCrawlJob> Fetcher(Class<T> jobClz) {
+        this(0, jobClz);
     }
 
 
-    public Fetcher(int maxDepth) {
+    public <T extends DefaultAbstractCrawlJob> Fetcher(int maxDepth, Class<T> jobClz) {
+        this(maxDepth, () -> {
+            try {
+                return jobClz.newInstance();
+            } catch (Exception e) {
+                log.error("create job error! e: {}", e);
+                return null;
+            }
+        });
+    }
+
+    public <T extends DefaultAbstractCrawlJob> Fetcher(int maxDepth, ObjectFactory<T> jobFactory) {
         this.maxDepth = maxDepth;
         fetchQueue = FetchQueue.DEFAULT_INSTANCE;
         threadConf = ThreadConf.DEFAULT_CONF;
         initExecutor();
+
+        SimplePool simplePool = new SimplePool<>(ConfigWrapper.getInstance().getConfig().getFetchQueueSize(), jobFactory);
+        SimplePool.initInstance(simplePool);
     }
 
 
@@ -60,7 +79,7 @@ public class Fetcher {
     }
 
 
-    public <T extends DefaultAbstractCrawlJob> void start(Class<T> clz) throws Exception {
+    public <T extends DefaultAbstractCrawlJob> void start() throws Exception {
         long start = System.currentTimeMillis();
         CrawlMeta crawlMeta;
 
@@ -92,7 +111,7 @@ public class Fetcher {
             }
 
 
-            DefaultAbstractCrawlJob job = clz.newInstance();
+            DefaultAbstractCrawlJob job = (DefaultAbstractCrawlJob) SimplePool.getInstance().get();
             job.setDepth(this.maxDepth);
             job.setCrawlMeta(crawlMeta);
             job.setFetchQueue(fetchQueue);
@@ -128,8 +147,8 @@ public class Fetcher {
     @ToString
     @NoArgsConstructor
     public static class ThreadConf {
-        private int coreNum = 6;
-        private int maxNum = 10;
+        private int coreNum = 3;
+        private int maxNum = 4;
         private int queueSize = 10;
         private int aliveTime = 1;
         private TimeUnit timeUnit = TimeUnit.MINUTES;

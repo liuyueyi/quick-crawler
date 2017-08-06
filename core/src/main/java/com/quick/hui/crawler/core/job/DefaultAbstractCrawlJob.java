@@ -69,12 +69,9 @@ public abstract class DefaultAbstractCrawlJob extends AbstractJob {
      * 执行抓取网页
      */
     void doFetchPage() throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("start crawl url: {}", crawlMeta.getUrl());
-        }
-
-
         long start = System.currentTimeMillis();
+        log.info("start crawl url: {}", crawlMeta.getUrl());
+
         HttpResponse response = HttpUtils.request(this.crawlMeta, httpConf);
         String res = EntityUtils.toString(response.getEntity(), httpConf.getCode());
         long end = System.currentTimeMillis();
@@ -82,7 +79,7 @@ public abstract class DefaultAbstractCrawlJob extends AbstractJob {
             log.debug("crawl url:{} response code: {} cost time: {} ms\n",
                     this.crawlMeta.getUrl(),
                     response.getStatusLine().getStatusCode(),
-                    end - start );
+                    end - start);
         }
 
 
@@ -103,6 +100,9 @@ public abstract class DefaultAbstractCrawlJob extends AbstractJob {
 
         // 结果过滤
         ResultFilter.filter(crawlMeta, crawlResult, fetchQueue, depth);
+
+
+        log.info("end crawl url: {}, cost: {}ms", crawlMeta.getUrl(), System.currentTimeMillis() - start);
     }
 
 
@@ -131,5 +131,14 @@ public abstract class DefaultAbstractCrawlJob extends AbstractJob {
 
     protected void setResponseCode(String code) {
         httpConf.setCode(code);
+    }
+
+
+    @Override
+    public void clear() {
+        this.depth = 0;
+        this.crawlMeta = null;
+        this.fetchQueue = null;
+        this.crawlResult = null;
     }
 }

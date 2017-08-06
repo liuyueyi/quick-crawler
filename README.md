@@ -53,10 +53,16 @@
 
 - 采用配置文件方式，支持配置信息的动态变更
 
+### 8. [v.0.008](https://github.com/liuyueyi/quick-crawler/releases/tag/v0.008)
+
+> 对象池的实现
+
+- 采用对象池来管理Job任务的创建
+
 ## 相关博文
 
-- [Java 动手写爬虫: 一、实现一个最简单爬虫](http://zbang.online:8080/articles/2017/07/05/1499239054423.html)
-- [Java 动手写爬虫: 二、深度爬取](http://zbang.online:8080/articles/2017/07/05/1499239349163.html)
-- [Java 动手写爬虫: 三、爬取队列](http://zbang.online:8080/articles/2017/07/07/1499401540323.html)
-- [Java 动手写爬虫: 四、日志埋点输出 & 动态配置支持](http://zbang.online:8080/articles/2017/07/27/1501130050920.html)
-
+- [Java 动手写爬虫: 一、实现一个最简单爬虫](https://blog.zbang.online/articles/2017/07/05/1499239054423.html)
+- [Java 动手写爬虫: 二、深度爬取](https://blog.zbang.online/articles/2017/07/05/1499239349163.html)
+- [Java 动手写爬虫: 三、爬取队列](https://blog.zbang.online/articles/2017/07/07/1499401540323.html)
+- [Java 动手写爬虫: 四、日志埋点输出 & 动态配置支持](https://blog.zbang.online/articles/2017/07/27/1501130050920.html)
+- [Java 动手写爬虫: 五 对象池](https://blog.zbang.online/articles/2017/08/06/1502027484605.html)

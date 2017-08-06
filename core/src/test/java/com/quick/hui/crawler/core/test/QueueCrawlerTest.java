@@ -22,6 +22,7 @@ public class QueueCrawlerTest {
 
         @Override
         protected void visit(CrawlResult crawlResult) {
+//            System.out.println(crawlResult.getHtmlDoc());
 //            System.out.println(Thread.currentThread().getName() + "___" + crawlMeta.getCurrentDepth() + "___" + crawlResult.getUrl());
         }
     }
@@ -29,16 +30,16 @@ public class QueueCrawlerTest {
 
     @Test
     public void testCrawel() throws Exception {
-        Fetcher fetcher = new Fetcher(2);
+        Fetcher fetcher = new Fetcher(2, QueueCrawlerJob.class);
 
-        String url = "http://chengyu.t086.com/gushi/1.htm";
+        String url = "http://chengyu.911cha.com/zishu_4.html";
         CrawlMeta crawlMeta = new CrawlMeta();
         crawlMeta.setUrl(url);
-        crawlMeta.addPositiveRegex("http://chengyu.t086.com/gushi/[0-9]+\\.html$");
+        crawlMeta.addPositiveRegex("http://chengyu.911cha.com/zishu_4_p[0-9]+\\.html$");
 
         fetcher.addFeed(crawlMeta);
 
 
-        fetcher.start(QueueCrawlerJob.class);
+        fetcher.start();
     }
 }

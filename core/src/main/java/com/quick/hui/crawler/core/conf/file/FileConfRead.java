@@ -30,6 +30,7 @@ public class FileConfRead implements IConfRead {
             Config config = new Config();
             config.setSleep(properties.getProperty("sleep"), 0);
             config.setEmptyQueueWaitTime(properties.getProperty("emptyQueueWaitTime"), 200);
+            config.setFetchQueueSize(properties.getProperty("fetchQueueSize"), 100);
 
             return config;
         } catch (Exception e) {

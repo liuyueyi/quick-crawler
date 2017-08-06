@@ -1,10 +1,13 @@
 package com.quick.hui.crawler.core.job;
 
 import com.quick.hui.crawler.core.entity.CrawlResult;
+import com.quick.hui.crawler.core.pool.SimplePool;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by yihui on 2017/6/27.
  */
+@Slf4j
 public abstract class AbstractJob implements IJob {
 
     public void beforeRun() {
@@ -30,11 +33,15 @@ public abstract class AbstractJob implements IJob {
         try {
             this.doFetchPage();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("fetch page error! e: {}", e);
         }
 
 
         this.afterRun();
+
+//
+//        // 将job扔回队列
+        SimplePool.getInstance().release(this);
     }
 
 

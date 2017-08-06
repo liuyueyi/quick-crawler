@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.quick.hui.crawler" level="DEBUG"/>
+    <logger name="com.quick.hui.crawler" level="INFO"/>
 
 
     <root level="INFO">
