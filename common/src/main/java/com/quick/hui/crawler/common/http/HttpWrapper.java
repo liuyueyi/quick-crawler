@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yihui on 2018/1/12.
  */
 public class HttpWrapper {
-    private static OkHttpClient client = new OkHttpClient();
-
     private static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36";
 
     public static Builder of(String url) {
@@ -25,6 +24,12 @@ public class HttpWrapper {
 
 
     public static class Builder {
+
+        private long connectTimeOut = 10_000;
+
+        private long readTimeOut = 10_000;
+
+        private long writeTimeOut = 10_000;
 
         private String url;
 
@@ -88,6 +93,35 @@ public class HttpWrapper {
 
 
         /**
+         * 单位毫秒
+         * @param connectTimeOut 0 表示不超时
+         * @return
+         */
+        public Builder setConnectTimeOut(long connectTimeOut) {
+            this.connectTimeOut = connectTimeOut;
+            return this;
+        }
+
+        public Builder setReadTimeOut(long readTimeOut) {
+            this.readTimeOut = readTimeOut;
+            return this;
+        }
+
+
+        public Builder setWriteTimeOut(long writeTimeOut) {
+            this.writeTimeOut = writeTimeOut;
+            return this;
+        }
+
+        private OkHttpClient client() {
+            return new OkHttpClient.Builder()
+                    .connectTimeout(connectTimeOut, TimeUnit.MILLISECONDS)
+                    .readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
+                    .writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
+                    .build();
+        }
+
+        /**
          * 发送get请求
          *
          * @return
@@ -99,7 +133,7 @@ public class HttpWrapper {
                 urlBuilder.append("?").append(Joiner.on('&').withKeyValueSeparator('=').join(params));
             }
 
-            return client.newCall(reqBuilder.url(urlBuilder.toString()).build()).execute();
+            return client().newCall(reqBuilder.url(urlBuilder.toString()).build()).execute();
         }
 
 
@@ -115,7 +149,7 @@ public class HttpWrapper {
                 params.forEach(formBodyBuilder::add);
             }
 
-            return client.newCall(reqBuilder.url(url)
+            return client().newCall(reqBuilder.url(url)
                     .post(formBodyBuilder.build())
                     .build())
                     .execute();
@@ -136,7 +170,7 @@ public class HttpWrapper {
             // 添加参数
             params.forEach(bodyBuilder::addFormDataPart);
 
-            return client.newCall(reqBuilder.url(url)
+            return client().newCall(reqBuilder.url(url)
                     .post(bodyBuilder.build())
                     .build())
                     .execute();

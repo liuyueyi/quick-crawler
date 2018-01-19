@@ -4,8 +4,11 @@ import com.quick.hui.crawler.common.http.HttpWrapper;
 import okhttp3.Response;
 import org.junit.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by yihui on 2018/1/12.
@@ -51,13 +54,32 @@ public class HttpWrapperTest {
                     .addParam("content", content)
                     .addParam("token", token)
                     .addParam("noborder", noborder)
+                    .addParam("type", "stream")
                     .post();
             if (res.isSuccessful()) {
-                String str = res.body().string();
-                System.out.println("ans: " + str);
+//                String str = res.body().string();
+                //                System.out.println("ans: " + str);
+                BufferedImage bf = ImageIO.read(res.body().byteStream());
+                System.out.println("over");
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void testDownload() {
+        String url = "https://www.baidu.com/img/bd_logo1.png";
+        try {
+            Response res = HttpWrapper.of(url).get();
+            if (res.isSuccessful()) {
+                InputStream stream = res.body().byteStream();
+                BufferedImage img = ImageIO.read(stream);
+                System.out.println("over");
+            }
+        } catch (Exception e) {
+
         }
     }
 
