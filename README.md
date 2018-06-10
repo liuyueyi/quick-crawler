@@ -61,8 +61,12 @@
 
 ## 相关博文
 
-- [Java 动手写爬虫: 一、实现一个最简单爬虫](https://blog.zbang.online/articles/2017/07/05/1499239054423.html)
-- [Java 动手写爬虫: 二、深度爬取](https://blog.zbang.online/articles/2017/07/05/1499239349163.html)
-- [Java 动手写爬虫: 三、爬取队列](https://blog.zbang.online/articles/2017/07/07/1499401540323.html)
-- [Java 动手写爬虫: 四、日志埋点输出 & 动态配置支持](https://blog.zbang.online/articles/2017/07/27/1501130050920.html)
-- [Java 动手写爬虫: 五 对象池](https://blog.zbang.online/articles/2017/08/06/1502027484605.html)
+一灰灰Blog地址: [https://blog.hhui.top/](https://blog.hhui.top/)
+
+所有QuickCrawel相关博文汇总: [QuickCrawel java爬虫归档](https://blog.hhui.top/hexblog/categories/%E6%8A%80%E6%9C%AF/Quick%E7%B3%BB%E5%88%97%E9%A1%B9%E7%9B%AE/QuickCrawler/)
+
+- [Java 动手写爬虫: 一、实现一个最简单爬虫](https://blog.hhui.top/hexblog/2017/06/27/Java-%E5%8A%A8%E6%89%8B%E5%86%99%E7%88%AC%E8%99%AB-%E4%B8%80%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%9C%80%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/)
+- [Java 动手写爬虫: 二、深度爬取](https://blog.hhui.top/hexblog/2017/06/30/Java-%E5%8A%A8%E6%89%8B%E5%86%99%E7%88%AC%E8%99%AB-%E4%BA%8C%E3%80%81-%E6%B7%B1%E5%BA%A6%E7%88%AC%E5%8F%96/)
+- [Java 动手写爬虫: 三、爬取队列](https://blog.hhui.top/hexblog/2017/07/07/Java-%E5%8A%A8%E6%89%8B%E5%86%99%E7%88%AC%E8%99%AB-%E4%B8%89%E3%80%81%E7%88%AC%E5%8F%96%E9%98%9F%E5%88%97/)
+- [Java 动手写爬虫: 四、日志埋点输出 & 动态配置支持](https://blog.hhui.top/hexblog/2017/07/27/Java-%E5%8A%A8%E6%89%8B%E5%86%99%E7%88%AC%E8%99%AB-%E5%9B%9B%E3%80%81%E6%97%A5%E5%BF%97%E5%9F%8B%E7%82%B9%E8%BE%93%E5%87%BA-%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E6%94%AF%E6%8C%81/)
+- [Java 动手写爬虫: 五 对象池](https://blog.hhui.top/hexblog/2017/08/06/Java-%E5%8A%A8%E6%89%8B%E5%86%99%E7%88%AC%E8%99%AB-%E4%BA%94-%E5%AF%B9%E8%B1%A1%E6%B1%A0/)
